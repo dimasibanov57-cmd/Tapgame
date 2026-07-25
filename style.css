@@ -1,0 +1,357 @@
+/* ===== БАЗА ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    background: #050a05;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    padding: 8px;
+    overflow-x: hidden;
+}
+
+#app {
+    max-width: 400px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(16px);
+    border-radius: 32px;
+    padding: 16px 14px 20px;
+    border: 1px solid rgba(0, 255, 100, 0.1);
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.9);
+    position: relative;
+    overflow: hidden;
+}
+
+/* ===== ЗВЁЗДНЫЙ ФОН ===== */
+#stars {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    animation: twinkle var(--duration) ease-in-out infinite alternate;
+}
+
+@keyframes twinkle {
+    0% { opacity: 0.2; transform: scale(0.8); }
+    100% { opacity: 1; transform: scale(1.2); }
+}
+
+/* ===== ШАПКА ===== */
+.header { position: relative; z-index: 1; margin-bottom: 12px; }
+.stats {
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr 1fr;
+    gap: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 8px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+}
+.stat-label {
+    font-size: 8px;
+    color: #888;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+.stat-value {
+    font-size: 14px;
+    font-weight: 800;
+    color: #6fdf8a;
+    text-shadow: 0 0 20px rgba(0, 255, 100, 0.2);
+}
+.stat-value.small { font-size: 10px; color: #7cf9ff; }
+.energy-bar {
+    width: 100%;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 2px 0;
+}
+.energy-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #00d4ff, #7cf9ff);
+    border-radius: 10px;
+    transition: width 0.3s ease;
+}
+
+/* ===== КУПЮРА ===== */
+.coin-wrapper {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 4px 0 8px;
+    cursor: pointer;
+    z-index: 1;
+}
+.coin-glow {
+    position: absolute;
+    width: 200px;
+    height: 160px;
+    background: radial-gradient(circle, rgba(0, 255, 100, 0.15) 0%, transparent 70%);
+    border-radius: 50%;
+    animation: pulseGlow 2.5s ease-in-out infinite;
+}
+@keyframes pulseGlow {
+    0%, 100% { transform: scale(1); opacity: 0.5; }
+    50% { transform: scale(1.15); opacity: 1; }
+}
+#coinImage {
+    width: 140px;
+    height: 105px;
+    position: relative;
+    z-index: 2;
+    transition: transform 0.08s ease;
+    filter: drop-shadow(0 0 40px rgba(0, 255, 100, 0.25));
+    border-radius: 8px;
+    object-fit: contain;
+}
+#coinImage:active { transform: scale(0.85); }
+
+.combo-display {
+    position: absolute;
+    top: -10px;
+    right: 20px;
+    font-size: 18px;
+    font-weight: 900;
+    color: #ff6b00;
+    text-shadow: 0 0 30px rgba(255, 100, 0, 0.5);
+    z-index: 5;
+    animation: comboPulse 0.5s ease;
+}
+@keyframes comboPulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.5); }
+    100% { transform: scale(1); }
+}
+
+/* ===== ПАРЯЩИЙ ТЕКСТ ===== */
+#floatingTexts {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 5;
+}
+.float-text {
+    position: absolute;
+    font-size: 26px;
+    font-weight: 900;
+    text-shadow: 0 0 25px rgba(0, 255, 100, 0.5);
+    animation: floatUp 0.9s cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
+}
+@keyframes floatUp {
+    0% { opacity: 1; transform: translateY(0) scale(0.7); }
+    100% { opacity: 0; transform: translateY(-120px) scale(1.5); }
+}
+
+/* ===== ИНФО ===== */
+.income-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: #888;
+    padding: 4px 2px 8px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    margin-bottom: 8px;
+    position: relative;
+    z-index: 1;
+}
+.income-info span { font-weight: 600; }
+.income-info span:first-child span { color: #7cf9ff; }
+.income-info span:nth-child(2) span { color: #6fdf8a; }
+.income-info span:last-child span { color: #ff6b00; }
+
+/* ===== ВКЛАДКИ ===== */
+.tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 8px;
+    position: relative;
+    z-index: 1;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+}
+.tab-btn {
+    flex: 0 0 auto;
+    padding: 8px 10px;
+    border: none;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #777;
+    background: rgba(255, 255, 255, 0.04);
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+    white-space: nowrap;
+}
+.tab-btn.active {
+    color: #fff;
+    background: rgba(0, 255, 100, 0.12);
+    border-color: rgba(0, 255, 100, 0.2);
+}
+.tab-panel {
+    display: none;
+    flex-direction: column;
+    gap: 6px;
+    position: relative;
+    z-index: 1;
+    max-height: 320px;
+    overflow-y: auto;
+}
+.tab-panel.active { display: flex; }
+
+/* ===== КНОПКИ ===== */
+.shop-btn {
+    display: flex;
+    align-items: center;
+    padding: 10px 12px;
+    border: none;
+    border-radius: 14px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+    gap: 8px;
+    min-height: 44px;
+}
+.shop-btn:active { transform: scale(0.96); }
+.shop-btn .icon { font-size: 18px; width: 28px; text-align: center; }
+.shop-btn .text { flex: 1; text-align: left; font-size: 12px; }
+.shop-btn .price { font-size: 11px; padding: 3px 10px; border-radius: 30px; font-weight: 700; white-space: nowrap; }
+
+/* Цвета кнопок */
+.shop-btn.upgrade { background: linear-gradient(135deg, #2a1a4a, #1a0b2e); border-color: rgba(180, 130, 255, 0.15); }
+.shop-btn.upgrade .price { background: rgba(180, 130, 255, 0.2); color: #c084fc; }
+.shop-btn.mega { background: linear-gradient(135deg, #3a1a2a, #1a0b1e); border-color: rgba(255, 100, 100, 0.15); }
+.shop-btn.mega .price { background: rgba(255, 100, 100, 0.2); color: #ff8a8a; }
+.shop-btn.ultra { background: linear-gradient(135deg, #1a2a3a, #0a1a2a); border-color: rgba(100, 200, 255, 0.15); }
+.shop-btn.ultra .price { background: rgba(100, 200, 255, 0.2); color: #7cf9ff; }
+.shop-btn.legendary { background: linear-gradient(135deg, #2a1a2a, #1a0a1a); border-color: rgba(255, 215, 0, 0.2); }
+.shop-btn.legendary .price { background: rgba(255, 215, 0, 0.2); color: #ffd700; }
+.shop-btn.auto { background: linear-gradient(135deg, #1a2a1a, #0a1a0a); border-color: rgba(100, 255, 150, 0.2); }
+.shop-btn.auto .price { background: rgba(100, 255, 150, 0.2); color: #6fdf8a; }
+.shop-btn.business { background: linear-gradient(135deg, #1a1a2a, #0a0a1a); border-color: rgba(100, 150, 255, 0.12); }
+.shop-btn.business .price { background: rgba(100, 150, 255, 0.15); color: #7ca8ff; }
+.shop-btn.energy-buy { background: linear-gradient(135deg, #0a2a3a, #0a1a2a); border-color: rgba(100, 200, 255, 0.2); }
+.shop-btn.energy-buy .price { background: rgba(100, 200, 255, 0.2); color: #7cf9ff; }
+.shop-btn.energy-max { background: linear-gradient(135deg, #2a1a3a, #1a0a2a); border-color: rgba(180, 130, 255, 0.2); }
+.shop-btn.energy-max .price { background: rgba(180, 130, 255, 0.2); color: #c084fc; }
+.shop-btn.energy-regen { background: linear-gradient(135deg, #1a2a2a, #0a1a1a); border-color: rgba(100, 255, 200, 0.2); }
+.shop-btn.energy-regen .price { background: rgba(100, 255, 200, 0.2); color: #6fdfaa; }
+.shop-btn.bonus { background: linear-gradient(135deg, #2a1a2a, #1a0a1a); border-color: rgba(255, 150, 255, 0.12); }
+.shop-btn.bonus .price { background: rgba(255, 150, 255, 0.15); color: #e87ae8; }
+.shop-btn.prestige-btn { background: linear-gradient(135deg, #3a1a1a, #1a0a0a); border-color: rgba(255, 100, 100, 0.3); }
+.shop-btn.prestige-btn .price { background: rgba(255, 100, 100, 0.3); color: #ff6b6b; }
+
+.energy-info {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px;
+    background: rgba(255,255,255,0.04);
+    border-radius: 12px;
+    font-size: 13px;
+    color: #aaa;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+.energy-info span { color: #7cf9ff; font-weight: 700; }
+
+/* ===== СТАТИСТИКА ===== */
+.stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+}
+.stat-card {
+    background: rgba(255,255,255,0.04);
+    padding: 10px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+.stat-card span:first-child { font-size: 10px; color: #888; }
+.stat-card span:last-child { font-size: 16px; font-weight: 800; color: #6fdf8a; }
+
+.achievements-list {
+    margin-top: 8px;
+    max-height: 150px;
+    overflow-y: auto;
+}
+.achievement {
+    padding: 6px 10px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 8px;
+    font-size: 11px;
+    color: #666;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+.achievement.unlocked { color: #ffd700; background: rgba(255,215,0,0.05); }
+
+/* ===== НАЛОГИ ===== */
+.tax-warning {
+    margin-top: 8px;
+    padding: 8px;
+    background: rgba(255, 0, 0, 0.1);
+    border-radius: 10px;
+    font-size: 11px;
+    color: #ff6b6b;
+    text-align: center;
+    border: 1px solid rgba(255, 0, 0, 0.1);
+    position: relative;
+    z-index: 1;
+}
+.tax-warning span { font-weight: 700; color: #ff6b6b; }
+
+/* ===== АДАПТАЦИЯ ===== */
+@media (max-width: 420px) {
+    #app { padding: 12px 10px 16px; }
+    #coinImage { width: 110px; height: 82px; }
+    .coin-glow { width: 160px; height: 130px; }
+    .stats { grid-template-columns: 1fr 1fr 1fr 1fr; padding: 6px; gap: 2px; }
+    .stat-value { font-size: 12px; }
+    .stat-label { font-size: 7px; }
+    .shop-btn { padding: 8px 10px; font-size: 11px; min-height: 36px; }
+    .shop-btn .icon { font-size: 15px; width: 22px; }
+    .shop-btn .text { font-size: 10px; }
+    .shop-btn .price { font-size: 10px; padding: 2px 8px; }
+    .tabs .tab-btn { font-size: 9px; padding: 6px 8px; }
+    .income-info { font-size: 9px; }
+}
