@@ -1,1 +1,30 @@
-https://github.com/dimasibanov57-cmd/Tapgame.git
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Моя Тапалка</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app">
+        <div class="header">
+            <span>🪙 Монет: <span id="coinCounter">0</span></span>
+            <span>⚡ Энергия: <span id="energyCounter">500</span>/500</span>
+        </div>
+
+        <div class="coin-area">
+            <img id="coinImage" src="https://emojicdn.elk.sh/🪙" alt="Монета" width="200">
+            <div id="floatingTexts"></div>
+        </div>
+
+        <div class="shop">
+            <button onclick="buyUpgrade(50, 1)">⬆ Улучшить тап (+1) — 50 🪙</button>
+            <button onclick="buyUpgrade(200, 5)">🚀 Мега-тап (+5) — 200 🪙</button>
+            <button onclick="buyEnergy(100)">🔋 Восстановить энергию — 100 🪙</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
